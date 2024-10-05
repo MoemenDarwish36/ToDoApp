@@ -20,7 +20,6 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * .5,
       padding: const EdgeInsets.all(16),
       child: Column(
         children: [

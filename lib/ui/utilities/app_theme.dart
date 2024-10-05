@@ -60,5 +60,15 @@ class AppThemeData {
           fontWeight: FontWeight.w400,
           color: AppColors.black,
         ),
+        titleSmall: GoogleFonts.poppins(
+          fontSize: 22,
+          fontWeight: FontWeight.w700,
+          color: AppColors.primaryColor,
+        ),
+        bodySmall: GoogleFonts.poppins(
+          fontSize: 18,
+          fontWeight: FontWeight.w400,
+          color: AppColors.black,
+        ),
       ));
 }

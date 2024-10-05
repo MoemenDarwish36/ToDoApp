@@ -16,7 +16,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int selectedIndex = 0;
-  List<Widget> tab = const [SettingTap(), ListTap()];
+  List<Widget> tab = const [ListTap(), SettingTap()];
 
   @override
   Widget build(BuildContext context) {
