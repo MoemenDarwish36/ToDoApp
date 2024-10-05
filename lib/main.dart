@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todos/ui/screens/home/home_screen.dart';
 import 'package:todos/ui/screens/splash/splash.dart';
+import 'package:todos/ui/utilities/app_theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,8 +17,9 @@ class MyApp extends StatelessWidget {
       initialRoute: Splash.routeName,
       routes: {
         Splash.routeName: (_) => const Splash(),
-        HomeScreen.routeName: (_) => const HomeScreen(),
+        HomeScreen.routeName: (_) => HomeScreen(),
       },
+      theme: AppThemeData.lightTheme,
     );
   }
 }
