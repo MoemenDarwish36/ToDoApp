@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:todos/ui/model/task_dm.dart';
 import 'package:todos/ui/utilities/date_time_extension.dart';
+import 'package:todos/ui/utilities/firebase_utils.dart';
 
 class AddBottomSheet extends StatefulWidget {
   const AddBottomSheet({super.key});
@@ -16,6 +18,9 @@ class AddBottomSheet extends StatefulWidget {
 class _AddBottomSheetState extends State<AddBottomSheet> {
   var formKey = GlobalKey<FormState>();
   DateTime selectedDate = DateTime.now();
+  String title = '';
+
+  String description = '';
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +44,9 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
                       }
                       return null;
                     },
+                    onChanged: (text) {
+                      title = text;
+                    },
                     decoration:
                         const InputDecoration(hintText: "Enter task Title"),
                   ),
@@ -51,6 +59,9 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
                         return 'Please Enter Task Description';
                       }
                       return null;
+                    },
+                    onChanged: (text) {
+                      description = text;
                     },
                     decoration: const InputDecoration(
                       hintText: "Enter task Description",
@@ -94,7 +105,17 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
   }
 
   void addToDoToFireStore() {
-    if (formKey.currentState?.validate() == true) {}
+    if (formKey.currentState?.validate() == true) {
+      ///Add Task
+      TaskDm task = TaskDm(
+          title: title, dateTime: selectedDate, description: description);
+      FirebaseUtils.addTaskToFireStore(task).
+
+          /// called in used firebase offline
+          timeout(const Duration(microseconds: 500), onTimeout: () {
+        Navigator.pop(context);
+      });
+    }
   }
 
   void showMyDatePicker() async {

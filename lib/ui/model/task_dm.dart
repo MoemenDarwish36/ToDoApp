@@ -1,0 +1,42 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+class TaskDm {
+  static const String collectionName = "task";
+
+  late String id;
+
+  late String title;
+
+  late DateTime dateTime;
+
+  late String description;
+
+  late bool isDone;
+
+  TaskDm({
+    this.id = '',
+    required this.title,
+    required this.dateTime,
+    required this.description,
+    this.isDone = false,
+  });
+
+  TaskDm.fromJson(Map<String, dynamic> json) {
+    id = json["id"];
+    title = json["title"];
+    description = json["description"];
+
+    ///to convert time to  timestamp
+    Timestamp timestamp = json["date"];
+    dateTime = timestamp.toDate();
+    isDone = json["isDone"];
+  }
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "title": title,
+        "description": description,
+        "dateTime": dateTime,
+        "isDone": isDone
+      };
+}
