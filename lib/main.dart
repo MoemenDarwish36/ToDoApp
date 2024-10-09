@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todos/ui/provider/list_provider.dart';
 import 'package:todos/ui/screens/home/home_screen.dart';
 import 'package:todos/ui/screens/splash/splash.dart';
 import 'package:todos/ui/utilities/app_theme.dart';
@@ -13,7 +15,8 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await FirebaseFirestore.instance.disableNetwork();
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+      create: (context) => ListProvider(), child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

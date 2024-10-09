@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:todos/ui/model/task_dm.dart';
 import 'package:todos/ui/utilities/app_colors.dart';
 
 class ListItem extends StatelessWidget {
-  const ListItem({super.key});
+  TaskDm task;
+
+  ListItem({super.key, required this.task});
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +28,11 @@ class ListItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                "title",
+                task.title,
                 style: Theme.of(context).textTheme.titleSmall,
               ),
               Text(
-                "title",
+                task.description,
                 style: Theme.of(context).textTheme.bodySmall,
               ),
             ],

@@ -27,8 +27,15 @@ class TaskDm {
     description = json["description"];
 
     ///to convert time to  timestamp
-    Timestamp timestamp = json["date"];
+    Timestamp timestamp = json["dateTime"];
     dateTime = timestamp.toDate();
+    // التحقق من وجود dateTime قبل محاولة تحويله
+    // if (json["dateTime"] != null) {
+    //   Timestamp timestamp = json["dateTime"] as Timestamp;
+    //   dateTime = timestamp.toDate();
+    // } else {
+    //   dateTime = null; // إذا كانت القيمة null
+    // }
     isDone = json["isDone"];
   }
 
@@ -36,7 +43,13 @@ class TaskDm {
         "id": id,
         "title": title,
         "description": description,
-        "dateTime": dateTime,
+        // "dateTime": dateTime,
+        "dateTime": Timestamp.fromDate(dateTime!),
         "isDone": isDone
       };
 }
+
+/// firebase => json
+/// developer => object
+/// object => json
+/// json => object

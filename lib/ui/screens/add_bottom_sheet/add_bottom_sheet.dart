@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todos/ui/model/task_dm.dart';
 import 'package:todos/ui/utilities/date_time_extension.dart';
 import 'package:todos/ui/utilities/firebase_utils.dart';
+
+import '../../provider/list_provider.dart';
 
 class AddBottomSheet extends StatefulWidget {
   const AddBottomSheet({super.key});
@@ -19,11 +22,12 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
   var formKey = GlobalKey<FormState>();
   DateTime selectedDate = DateTime.now();
   String title = '';
-
   String description = '';
+  late ListProvider listProvider;
 
   @override
   Widget build(BuildContext context) {
+    listProvider = Provider.of(context);
     return Container(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -113,6 +117,7 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
 
           /// called in used firebase offline
           timeout(const Duration(microseconds: 500), onTimeout: () {
+        listProvider.getAllTasksFromFireStore();
         Navigator.pop(context);
       });
     }

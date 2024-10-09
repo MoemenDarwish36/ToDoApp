@@ -1,5 +1,7 @@
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todos/ui/provider/list_provider.dart';
 import 'package:todos/ui/screens/home/taps/list/list_item.dart';
 
 class ListTap extends StatefulWidget {
@@ -10,18 +12,29 @@ class ListTap extends StatefulWidget {
 }
 
 class ListTapState extends State<ListTap> {
-  ///this variable to controls a date what user choice in calender
-  DateTime selectedCalendarDate = DateTime.now();
+  @override
+  // void initState() {
+  //   super.initState();
+  //   getAllTasksFromFireStore() ;
+  // }
+  late ListProvider listProvider;
   @override
   Widget build(BuildContext context) {
+    listProvider = Provider.of(context);
+    if (listProvider.tasksList.isEmpty) {
+      listProvider.getAllTasksFromFireStore();
+    }
+
     return Column(
       children: [
         buildCalendar(),
         Expanded(
           child: ListView.builder(
-              itemCount: 30,
+              itemCount: listProvider.tasksList.length,
               itemBuilder: (context, index) {
-                return const ListItem();
+                return ListItem(
+                  task: listProvider.tasksList[index],
+                );
               }),
         ),
       ],
@@ -30,9 +43,10 @@ class ListTapState extends State<ListTap> {
 
   buildCalendar() {
     return EasyDateTimeLine(
-      initialDate: DateTime.now(),
+      initialDate: listProvider.selectedDate,
       onDateChange: (selectedDate) {
         //`selectedDate` the new date selected.
+        listProvider.changeSelectData(selectedDate);
       },
       headerProps: const EasyHeaderProps(
         monthPickerType: MonthPickerType.switcher,
