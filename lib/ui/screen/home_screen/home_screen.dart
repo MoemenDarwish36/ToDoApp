@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:todo/ui/screen/home_screen/tab/List_tab.dart';
-import 'package:todo/ui/screen/home_screen/tab/settings_tab.dart';
+import 'package:todo/ui/screen/home_screen/tab/list_tab/List_tab.dart';
+import 'package:todo/ui/screen/home_screen/tab/settings/settings_tab.dart';
 
 import '../../utilities/app_color.dart';
+import 'add_bottom_sheet.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = "homeScreen";
@@ -15,7 +16,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int selectedIndex = 0;
-  List<Widget> tab = [const ListTab(), SettingsTab()];
+  List<Widget> tab = [ ListTab(), SettingsTab()];
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   buildFab() => FloatingActionButton(
         onPressed: () {
-          // AddBottomSheet.show(context);
+          AddBottomSheet.show(context);
         },
         child: const Icon(
           Icons.add,
