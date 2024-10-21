@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo/ui/utilities/data_time_extension.dart';
+
 import '../../utilities/app_color.dart';
 
 class AddBottomSheet extends StatefulWidget {
@@ -19,6 +20,7 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
   DateTime selectedDate = DateTime.now();
   String title = '';
   String description = '';
+
   // late ListProvider listProvider;
   // late ThemeProvider themeProvider;
   // late AuthUserProvider authUserProvider;
@@ -31,10 +33,10 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
     return Container(
       decoration: BoxDecoration(
         color:
-        // themeProvider.isDarkThemeEnabled
-        //     ? AppColors.blackDarkColor
-        //     :
-        AppColors.white,
+            // themeProvider.isDarkThemeEnabled
+            //     ? AppColors.blackDarkColor
+            //     :
+            AppColors.white,
       ),
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -62,10 +64,10 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
                         hintText: "Enter task Title",
                         hintStyle: TextStyle(
                           color:
-                          // themeProvider.isDarkThemeEnabled
-                          //     ? AppColors.white
-                          //     :
-                          AppColors.black,
+                              // themeProvider.isDarkThemeEnabled
+                              //     ? AppColors.white
+                              //     :
+                              AppColors.black,
                         )),
                   ),
                   const SizedBox(
@@ -85,10 +87,10 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
                         hintText: "Enter task Description",
                         hintStyle: TextStyle(
                           color:
-                          // themeProvider.isDarkThemeEnabled
-                          //     ? AppColors.white
-                          //     :
-                          AppColors.black,
+                              // themeProvider.isDarkThemeEnabled
+                              //     ? AppColors.white
+                              //     :
+                              AppColors.black,
                         )),
                     maxLines: 4,
                   ),
@@ -152,10 +154,10 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
   void showMyDatePicker() async {
     ///this function (showDatePicker) need 4 parameter to displays DatePicker
     selectedDate = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime.now(),
-        lastDate: DateTime.now().add(const Duration(days: 365))) ??
+            context: context,
+            initialDate: selectedDate,
+            firstDate: DateTime.now(),
+            lastDate: DateTime.now().add(const Duration(days: 365))) ??
         selectedDate;
     setState(() {});
   }

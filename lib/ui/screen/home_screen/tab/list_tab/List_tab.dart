@@ -1,6 +1,8 @@
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../../../../provider/theme_provider.dart';
 import '../../../../utilities/app_color.dart';
 import 'list_item.dart';
 
@@ -18,12 +20,12 @@ class ListTabState extends State<ListTab> {
   //   getAllTasksFromFireStore() ;
   // }
   // late ListProvider listProvider;
-  // late ThemeProvider themeProvider;
+  late ThemeProvider themeProvider;
   // late AuthUserProvider authUserProvider;
 
   @override
   Widget build(BuildContext context) {
-    // themeProvider = Provider.of(context);
+    themeProvider = Provider.of(context);
     // listProvider = Provider.of(context);
     // authUserProvider = Provider.of(context);
     // if (listProvider.tasksList.isEmpty) {
@@ -51,9 +53,9 @@ class ListTabState extends State<ListTab> {
   buildCalendar() {
     return EasyDateTimeLine(
       activeColor:
-      // themeProvider.isDarkThemeEnabled
-      //     ? AppColors.white
-      //     :
+      themeProvider.isDarkThemeEnabled
+          ? AppColors.white
+          :
       AppColors.primaryColor,
       initialDate:selectedDate,
       // listProvider.selectedDate,
@@ -65,16 +67,16 @@ class ListTabState extends State<ListTab> {
       headerProps: EasyHeaderProps(
         monthStyle: TextStyle(
           color:
-          // themeProvider.isDarkThemeEnabled
-          //     ? AppColors.white
-          //     :
+          themeProvider.isDarkThemeEnabled
+              ? AppColors.white
+              :
           AppColors.black,
         ),
         selectedDateStyle: TextStyle(
           color:
-          // themeProvider.isDarkThemeEnabled
-          //     ? AppColors.white
-          //     :
+          themeProvider.isDarkThemeEnabled
+              ? AppColors.white
+              :
           AppColors.black,
         ),
         monthPickerType: MonthPickerType.switcher,
@@ -84,68 +86,68 @@ class ListTabState extends State<ListTab> {
         todayStyle: DayStyle(
             dayNumStyle: TextStyle(
               color:
-              // themeProvider.isDarkThemeEnabled
-              //     ? AppColors.white
-              //     :
+              themeProvider.isDarkThemeEnabled
+                  ? AppColors.white
+                  :
               AppColors.black,
             ),
             decoration: BoxDecoration(
               color:
-              // themeProvider.isDarkThemeEnabled
-              //     ? AppColors.blackDarkColor
-              //     :
+              themeProvider.isDarkThemeEnabled
+                  ? AppColors.blackDarkColor
+                  :
               AppColors.white,
             )),
         inactiveDayStyle: DayStyle(
             monthStrStyle: TextStyle(
               color:
-              // themeProvider.isDarkThemeEnabled
-              //     ? AppColors.white
-              //     :
+              themeProvider.isDarkThemeEnabled
+                  ? AppColors.white
+                  :
               AppColors.black,
             ),
             dayStrStyle: TextStyle(
               color:
-              // themeProvider.isDarkThemeEnabled
-              //     ? AppColors.white
-              //     :
+              themeProvider.isDarkThemeEnabled
+                  ? AppColors.white
+                  :
               AppColors.black,
             ),
             dayNumStyle: TextStyle(
               color:
-              // themeProvider.isDarkThemeEnabled
-              //     ? AppColors.white
-              //     :
+              themeProvider.isDarkThemeEnabled
+                  ? AppColors.white
+                  :
               AppColors.black,
             ),
             decoration: BoxDecoration(
               color:
-              // themeProvider.isDarkThemeEnabled
-              //     ? AppColors.blackDarkColor
-              //     :
+              themeProvider.isDarkThemeEnabled
+                  ? AppColors.blackDarkColor
+                  :
               AppColors.white,
             )),
         dayStructure: DayStructure.dayStrDayNumMonth,
         activeDayStyle: DayStyle(
           monthStrStyle: TextStyle(
             color:
-            // themeProvider.isDarkThemeEnabled
-            //     ? AppColors.white
-            //     :
+            themeProvider.isDarkThemeEnabled
+                ? AppColors.white
+                :
             AppColors.black,
           ),
           dayStrStyle: TextStyle(
             color:
-            // themeProvider.isDarkThemeEnabled
-            //     ? AppColors.white
-            //     :
+            themeProvider.isDarkThemeEnabled
+                ? AppColors.white
+                :
             AppColors.black,
           ),
           dayNumStyle: TextStyle(
             color:
-            // themeProvider.isDarkThemeEnabled
-            //     ? AppColors.white
-            //     :
+            themeProvider.isDarkThemeEnabled
+                ? AppColors.white
+                :
             AppColors.black,
           ),
           decoration: const BoxDecoration(

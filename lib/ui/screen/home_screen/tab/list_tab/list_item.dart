@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:provider/provider.dart';
 
+import '../../../../../provider/theme_provider.dart';
 import '../../../../utilities/app_color.dart';
 
 class ListItem extends StatelessWidget {
@@ -8,12 +10,12 @@ class ListItem extends StatelessWidget {
 
   // ListItem({super.key, required this.task});
 
-  // late ThemeProvider themeProvider;
+  late ThemeProvider themeProvider;
 
   @override
   Widget build(BuildContext context) {
     // ListProvider listProvider = Provider.of(context);
-    // ThemeProvider themeProvider = Provider.of(context);
+    ThemeProvider themeProvider = Provider.of(context);
     // AuthUserProvider authUserProvider = Provider.of(context);
     return Container(
       margin: const EdgeInsets.all(12),
@@ -54,9 +56,9 @@ class ListItem extends StatelessWidget {
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
               color:
-              // themeProvider.isDarkThemeEnabled
-              //     ? AppColors.blackDarkColor
-              //     :
+              themeProvider.isDarkThemeEnabled
+                  ? AppColors.blackDarkColor
+                  :
               AppColors.white,
               borderRadius: BorderRadius.circular(22)),
           child: Row(

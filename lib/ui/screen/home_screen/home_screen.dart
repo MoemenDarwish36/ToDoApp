@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo/ui/screen/home_screen/tab/list_tab/List_tab.dart';
 import 'package:todo/ui/screen/home_screen/tab/settings/settings_tab.dart';
+import 'package:todo/ui/utilities/local_extension.dart';
 
 import '../../utilities/app_color.dart';
 import 'add_bottom_sheet.dart';
@@ -73,10 +74,10 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             items: [
               BottomNavigationBarItem(
-                  icon: Icon(Icons.list), label: "context.localization.list"),
+                  icon: Icon(Icons.list), label: context.localization.list),
               BottomNavigationBarItem(
                   icon: const Icon(Icons.settings),
-                  label: "context.localization.settings"),
+                  label: context.localization.settings),
             ]),
       );
 
