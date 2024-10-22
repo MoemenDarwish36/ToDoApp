@@ -1,7 +1,7 @@
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import '../../../../../provider/list_provider.dart';
 import '../../../../../provider/theme_provider.dart';
 import '../../../../utilities/app_color.dart';
 import 'list_item.dart';
@@ -14,36 +14,39 @@ class ListTab extends StatefulWidget {
 }
 
 class ListTabState extends State<ListTab> {
-  DateTime selectedDate = DateTime.now();
+
+
   // void initState() {
   //   super.initState();
   //   getAllTasksFromFireStore() ;
   // }
-  // late ListProvider listProvider;
+  late ListProvider listProvider;
   late ThemeProvider themeProvider;
   // late AuthUserProvider authUserProvider;
 
   @override
   Widget build(BuildContext context) {
     themeProvider = Provider.of(context);
-    // listProvider = Provider.of(context);
+    listProvider = Provider.of(context);
     // authUserProvider = Provider.of(context);
-    // if (listProvider.tasksList.isEmpty) {
-    //   listProvider.getAllTasksFromFireStore(authUserProvider.currentUser!.id!);
-    // }
+    if (listProvider.tasksList.isEmpty) {
+      listProvider.getAllTasksFromFireStore() ;
+        // (authUserProvider.currentUser!.id!);
+    }
 
     return Column(
       children: [
         buildCalendar(),
         Expanded(
           child: ListView.builder(
-              itemCount:30,
-              // listProvider.tasksList.length,
+              itemCount:
+              listProvider.tasksList.length,
               itemBuilder: (context, index) {
-                return ListItem();
-                //   ListItem(
-                //   task: listProvider.tasksList[index],
-                // );
+                return
+                  ListItem(
+                  task:
+                  listProvider.tasksList[index],
+                );
               }),
         ),
       ],
@@ -57,12 +60,13 @@ class ListTabState extends State<ListTab> {
           ? AppColors.white
           :
       AppColors.primaryColor,
-      initialDate:selectedDate,
-      // listProvider.selectedDate,
+      initialDate:
+      listProvider.selectedDate,
       onDateChange: (selectedDate) {
-        //`selectedDate` the new date selected.
-        // listProvider.changeSelectData(
-        //     selectedDate, authUserProvider.currentUser!.id!);
+        // `selectedDate` the new date selected.
+        listProvider.changeSelectData(
+            selectedDate) ;
+            // , authUserProvider.currentUser!.id!);
       },
       headerProps: EasyHeaderProps(
         monthStyle: TextStyle(
@@ -166,4 +170,7 @@ class ListTabState extends State<ListTab> {
       ),
     );
   }
+
+
+
 }

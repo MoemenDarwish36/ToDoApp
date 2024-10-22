@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
-
+import '../../../../../model/task_data_model.dart';
+import '../../../../../provider/list_provider.dart';
 import '../../../../../provider/theme_provider.dart';
 import '../../../../utilities/app_color.dart';
+import '../../../../utilities/firebase_utils.dart';
 
 class ListItem extends StatelessWidget {
-  // TaskDm task;
+  TaskDm task;
 
-  // ListItem({super.key, required this.task});
+  ListItem({super.key, required this.task});
 
   late ThemeProvider themeProvider;
 
   @override
   Widget build(BuildContext context) {
-    // ListProvider listProvider = Provider.of(context);
+    ListProvider listProvider = Provider.of(context);
     ThemeProvider themeProvider = Provider.of(context);
     // AuthUserProvider authUserProvider = Provider.of(context);
     return Container(
@@ -35,15 +37,17 @@ class ListItem extends StatelessWidget {
               ),
               onPressed: (context) {
                 /// delete task
-                // FirebaseUtils.deleteTaskFromFireStore(
-                //     task, authUserProvider.currentUser!.id!)
+                FirebaseUtils.deleteTaskFromFireStore(
+                    task).timeout(const Duration(milliseconds: 500), onTimeout: () {
+                  listProvider.getAllTasksFromFireStore( );
+                    // , authUserProvider.currentUser!.id!)
                 //     .then((value) {
                 //   listProvider.getAllTasksFromFireStore(
                 //       authUserProvider.currentUser!.id!);
                 // }).timeout(const Duration(milliseconds: 500), onTimeout: () {
                 //   listProvider.getAllTasksFromFireStore(
                 //       authUserProvider.currentUser!.id!);
-                // });
+                });
               },
               backgroundColor: AppColors.redColor,
               foregroundColor: AppColors.white,
@@ -75,11 +79,11 @@ class ListItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Text(
-                        "task.title",
+                        task.title,
                         style: Theme.of(context).textTheme.titleSmall,
                       ),
                       Text(
-                        "task.description",
+                        task.description,
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ],

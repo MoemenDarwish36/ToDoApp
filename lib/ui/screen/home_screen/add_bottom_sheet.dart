@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo/ui/utilities/data_time_extension.dart';
-
+import '../../../model/task_data_model.dart';
+import '../../../provider/list_provider.dart';
+import '../../../provider/theme_provider.dart';
 import '../../utilities/app_color.dart';
+import '../../utilities/firebase_utils.dart';
 
 class AddBottomSheet extends StatefulWidget {
   const AddBottomSheet({super.key});
@@ -21,22 +25,21 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
   String title = '';
   String description = '';
 
-  // late ListProvider listProvider;
-  // late ThemeProvider themeProvider;
+  late ListProvider listProvider;
+  late ThemeProvider themeProvider;
+
   // late AuthUserProvider authUserProvider;
 
   @override
   Widget build(BuildContext context) {
-    // listProvider = Provider.of(context);
-    // themeProvider = Provider.of(context);
+    listProvider = Provider.of(context);
+    themeProvider = Provider.of(context);
     // authUserProvider = Provider.of(context);
     return Container(
       decoration: BoxDecoration(
-        color:
-            // themeProvider.isDarkThemeEnabled
-            //     ? AppColors.blackDarkColor
-            //     :
-            AppColors.white,
+        color: themeProvider.isDarkThemeEnabled
+            ? AppColors.blackDarkColor
+            : AppColors.white,
       ),
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -63,11 +66,9 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
                     decoration: InputDecoration(
                         hintText: "Enter task Title",
                         hintStyle: TextStyle(
-                          color:
-                              // themeProvider.isDarkThemeEnabled
-                              //     ? AppColors.white
-                              //     :
-                              AppColors.black,
+                          color: themeProvider.isDarkThemeEnabled
+                              ? AppColors.white
+                              : AppColors.black,
                         )),
                   ),
                   const SizedBox(
@@ -86,11 +87,9 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
                     decoration: InputDecoration(
                         hintText: "Enter task Description",
                         hintStyle: TextStyle(
-                          color:
-                              // themeProvider.isDarkThemeEnabled
-                              //     ? AppColors.white
-                              //     :
-                              AppColors.black,
+                          color: themeProvider.isDarkThemeEnabled
+                              ? AppColors.white
+                              : AppColors.black,
                         )),
                     maxLines: 4,
                   ),
@@ -133,14 +132,24 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
   void addToDoToFireStore() {
     if (formKey.currentState?.validate() == true) {
       ///Add Task
-      // TaskDm task = TaskDm(
-      //     title: title, dateTime: selectedDate, description: description);
+      TaskDm task = TaskDm(
+          title: title, dateTime: selectedDate, description: description);
+      FirebaseUtils.addTaskToFireStore(task) .
+      timeout(const Duration(microseconds: 500), onTimeout: () {
+          listProvider
+              .getAllTasksFromFireStore() ;
+            // (authUserProvider.currentUser!.id!);
+        print("success .................................") ;
+          Navigator.pop(context);
+        });
+      
+      
       // FirebaseUtils.addTaskToFireStore(task, authUserProvider.currentUser!.id!)
       //     .then((onValue) {
-      //   listProvider
-      //       .getAllTasksFromFireStore(authUserProvider.currentUser!.id!);
+      //   // listProvider
+      //   //     .getAllTasksFromFireStore(authUserProvider.currentUser!.id!);
       //   Navigator.pop(context);
-      // })
+      // }) 
       //
       // /// called in used firebase offline
       //     .timeout(const Duration(microseconds: 500), onTimeout: () {
