@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import '../../../../../model/task_data_model.dart';
+import '../../../../../provider/auth_user_provider.dart';
 import '../../../../../provider/list_provider.dart';
 import '../../../../../provider/theme_provider.dart';
 import '../../../../utilities/app_color.dart';
@@ -13,12 +14,13 @@ class ListItem extends StatelessWidget {
   ListItem({super.key, required this.task});
 
   late ThemeProvider themeProvider;
+  late ListProvider listProvider;
 
   @override
   Widget build(BuildContext context) {
     ListProvider listProvider = Provider.of(context);
     ThemeProvider themeProvider = Provider.of(context);
-    // AuthUserProvider authUserProvider = Provider.of(context);
+    AuthUserProvider authUserProvider = Provider.of(context);
     return Container(
       margin: const EdgeInsets.all(12),
       child: Slidable(
@@ -26,7 +28,7 @@ class ListItem extends StatelessWidget {
         startActionPane: ActionPane(
           extentRatio: .25,
           // A motion is a widget used to control how the pane animates.
-          motion: const ScrollMotion(),
+          motion: const BehindMotion(),
           // All actions are defined in the children parameter.
           children: [
             // A SlidableAction can have an icon and/or a label.
@@ -38,15 +40,13 @@ class ListItem extends StatelessWidget {
               onPressed: (context) {
                 /// delete task
                 FirebaseUtils.deleteTaskFromFireStore(
-                    task).timeout(const Duration(milliseconds: 500), onTimeout: () {
-                  listProvider.getAllTasksFromFireStore( );
-                    // , authUserProvider.currentUser!.id!)
-                //     .then((value) {
-                //   listProvider.getAllTasksFromFireStore(
-                //       authUserProvider.currentUser!.id!);
-                // }).timeout(const Duration(milliseconds: 500), onTimeout: () {
-                //   listProvider.getAllTasksFromFireStore(
-                //       authUserProvider.currentUser!.id!);
+                        task, authUserProvider.currentUser!.id!)
+                    .then((value) {
+                  listProvider.getAllTasksFromFireStore(
+                      authUserProvider.currentUser!.id!);
+                }).timeout(const Duration(milliseconds: 500), onTimeout: () {
+                  listProvider.getAllTasksFromFireStore(
+                      authUserProvider.currentUser!.id!);
                 });
               },
               backgroundColor: AppColors.redColor,
@@ -56,15 +56,44 @@ class ListItem extends StatelessWidget {
             ),
           ],
         ),
+        endActionPane: ActionPane(
+          extentRatio: .25,
+          // A motion is a widget used to control how the pane animates.
+          motion: const BehindMotion(),
+          // All actions are defined in the children parameter.
+          children: [
+            // A SlidableAction can have an icon and/or a label.
+            SlidableAction(
+              borderRadius: const BorderRadius.only(
+                topRight: Radius.circular(24),
+                bottomRight: Radius.circular(24),
+              ),
+              onPressed: (context) {
+                /// delete task
+                FirebaseUtils.deleteTaskFromFireStore(
+                        task, authUserProvider.currentUser!.id!)
+                    .then((value) {
+                  listProvider.getAllTasksFromFireStore(
+                      authUserProvider.currentUser!.id!);
+                }).timeout(const Duration(milliseconds: 500), onTimeout: () {
+                  listProvider.getAllTasksFromFireStore(
+                      authUserProvider.currentUser!.id!);
+                });
+              },
+              backgroundColor: Colors.teal,
+              foregroundColor: AppColors.white,
+              icon: Icons.edit,
+              label: 'Edit',
+            ),
+          ],
+        ),
         child: Container(
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
           decoration: BoxDecoration(
-              color:
-              themeProvider.isDarkThemeEnabled
+              color: themeProvider.isDarkThemeEnabled
                   ? AppColors.blackDarkColor
-                  :
-              AppColors.white,
-              borderRadius: BorderRadius.circular(22)),
+                  : AppColors.white,
+              borderRadius: BorderRadius.circular(15)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -76,20 +105,23 @@ class ListItem extends StatelessWidget {
               ),
               Expanded(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(
-                        task.title,
-                        style: Theme.of(context).textTheme.titleSmall,
-                      ),
-                      Text(
-                        task.description,
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                    ],
-                  )),
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    task.title,
+                    style: Theme.of(context).textTheme.titleSmall,
+                    
+                  ),
+                  Text(
+                    task.description,
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                ],
+              )),
               InkWell(
-
+                onTap: (){
+                  task.isDone = !task.isDone ;
+                },
                 child: Container(
                   padding: EdgeInsets.symmetric(
                     vertical: MediaQuery.of(context).size.height * .01,

@@ -1,16 +1,17 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:todo/provider/auth_user_provider.dart';
 import 'package:todo/provider/language_provider.dart';
 import 'package:todo/provider/list_provider.dart';
 import 'package:todo/provider/theme_provider.dart';
+import 'package:todo/ui/screen/auth/login_screen.dart';
+import 'package:todo/ui/screen/auth/register_screen.dart';
 import 'package:todo/ui/screen/home_screen/home_screen.dart';
 import 'package:todo/ui/screen/splash_screen/splash_screen.dart';
 import 'package:todo/ui/utilities/app_theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import 'firebase_options.dart';
 
 void main() async{
@@ -22,15 +23,18 @@ void main() async{
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await FirebaseFirestore.instance.disableNetwork() ;
+  // await FirebaseFirestore.instance.disableNetwork() ;
   runApp(
       ChangeNotifierProvider(
-        create: (context) => ListProvider(),
+        create: (context) => AuthUserProvider(),
         child: ChangeNotifierProvider(
-          create: (context) => themeProvider,
+          create: (context) => ListProvider(),
           child: ChangeNotifierProvider(
-            create: (context) => languageProvider ,
-              child: const MyApp()),
+            create: (context) => themeProvider,
+            child: ChangeNotifierProvider(
+              create: (context) => languageProvider ,
+                child: const MyApp()),
+          ),
         ),
       ));
 }
@@ -56,10 +60,12 @@ class MyApp extends StatelessWidget {
       ],
       locale: Locale(languageProvider.selectedLanguage),
       debugShowCheckedModeBanner: false,
-      initialRoute: Splash.routeName,
+      initialRoute: LoginScreen.routeName,
       routes: {
         HomeScreen.routeName: (_) => HomeScreen(),
         Splash.routeName: (_) => const Splash(),
+        RegisterScreen.routeName: (_) =>  RegisterScreen(),
+        LoginScreen.routeName: (_) =>  LoginScreen(),
       },
       theme: AppThemeData.lightTheme,
       darkTheme: AppThemeData.darkTheme,

@@ -1,6 +1,7 @@
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../../../provider/auth_user_provider.dart';
 import '../../../../../provider/list_provider.dart';
 import '../../../../../provider/theme_provider.dart';
 import '../../../../utilities/app_color.dart';
@@ -14,24 +15,21 @@ class ListTab extends StatefulWidget {
 }
 
 class ListTabState extends State<ListTab> {
-
-
   // void initState() {
   //   super.initState();
   //   getAllTasksFromFireStore() ;
   // }
   late ListProvider listProvider;
   late ThemeProvider themeProvider;
-  // late AuthUserProvider authUserProvider;
+  late AuthUserProvider authUserProvider;
 
   @override
   Widget build(BuildContext context) {
     themeProvider = Provider.of(context);
     listProvider = Provider.of(context);
-    // authUserProvider = Provider.of(context);
+    authUserProvider = Provider.of(context);
     if (listProvider.tasksList.isEmpty) {
-      listProvider.getAllTasksFromFireStore() ;
-        // (authUserProvider.currentUser!.id!);
+      listProvider.getAllTasksFromFireStore(authUserProvider.currentUser!.id!);
     }
 
     return Column(
@@ -39,13 +37,10 @@ class ListTabState extends State<ListTab> {
         buildCalendar(),
         Expanded(
           child: ListView.builder(
-              itemCount:
-              listProvider.tasksList.length,
+              itemCount: listProvider.tasksList.length,
               itemBuilder: (context, index) {
-                return
-                  ListItem(
-                  task:
-                  listProvider.tasksList[index],
+                return ListItem(
+                  task: listProvider.tasksList[index],
                 );
               }),
         ),
@@ -55,33 +50,25 @@ class ListTabState extends State<ListTab> {
 
   buildCalendar() {
     return EasyDateTimeLine(
-      activeColor:
-      themeProvider.isDarkThemeEnabled
+      activeColor: themeProvider.isDarkThemeEnabled
           ? AppColors.white
-          :
-      AppColors.primaryColor,
-      initialDate:
-      listProvider.selectedDate,
+          : AppColors.primaryColor,
+      initialDate: listProvider.selectedDate,
       onDateChange: (selectedDate) {
         // `selectedDate` the new date selected.
         listProvider.changeSelectData(
-            selectedDate) ;
-            // , authUserProvider.currentUser!.id!);
+            selectedDate, authUserProvider.currentUser!.id!);
       },
       headerProps: EasyHeaderProps(
         monthStyle: TextStyle(
-          color:
-          themeProvider.isDarkThemeEnabled
+          color: themeProvider.isDarkThemeEnabled
               ? AppColors.white
-              :
-          AppColors.black,
+              : AppColors.black,
         ),
         selectedDateStyle: TextStyle(
-          color:
-          themeProvider.isDarkThemeEnabled
+          color: themeProvider.isDarkThemeEnabled
               ? AppColors.white
-              :
-          AppColors.black,
+              : AppColors.black,
         ),
         monthPickerType: MonthPickerType.switcher,
         dateFormatter: const DateFormatter.fullDateDMonthAsStrY(),
@@ -89,70 +76,52 @@ class ListTabState extends State<ListTab> {
       dayProps: EasyDayProps(
         todayStyle: DayStyle(
             dayNumStyle: TextStyle(
-              color:
-              themeProvider.isDarkThemeEnabled
+              color: themeProvider.isDarkThemeEnabled
                   ? AppColors.white
-                  :
-              AppColors.black,
+                  : AppColors.black,
             ),
             decoration: BoxDecoration(
-              color:
-              themeProvider.isDarkThemeEnabled
+              color: themeProvider.isDarkThemeEnabled
                   ? AppColors.blackDarkColor
-                  :
-              AppColors.white,
+                  : AppColors.white,
             )),
         inactiveDayStyle: DayStyle(
             monthStrStyle: TextStyle(
-              color:
-              themeProvider.isDarkThemeEnabled
+              color: themeProvider.isDarkThemeEnabled
                   ? AppColors.white
-                  :
-              AppColors.black,
+                  : AppColors.black,
             ),
             dayStrStyle: TextStyle(
-              color:
-              themeProvider.isDarkThemeEnabled
+              color: themeProvider.isDarkThemeEnabled
                   ? AppColors.white
-                  :
-              AppColors.black,
+                  : AppColors.black,
             ),
             dayNumStyle: TextStyle(
-              color:
-              themeProvider.isDarkThemeEnabled
+              color: themeProvider.isDarkThemeEnabled
                   ? AppColors.white
-                  :
-              AppColors.black,
+                  : AppColors.black,
             ),
             decoration: BoxDecoration(
-              color:
-              themeProvider.isDarkThemeEnabled
+              color: themeProvider.isDarkThemeEnabled
                   ? AppColors.blackDarkColor
-                  :
-              AppColors.white,
+                  : AppColors.white,
             )),
         dayStructure: DayStructure.dayStrDayNumMonth,
         activeDayStyle: DayStyle(
           monthStrStyle: TextStyle(
-            color:
-            themeProvider.isDarkThemeEnabled
+            color: themeProvider.isDarkThemeEnabled
                 ? AppColors.white
-                :
-            AppColors.black,
+                : AppColors.black,
           ),
           dayStrStyle: TextStyle(
-            color:
-            themeProvider.isDarkThemeEnabled
+            color: themeProvider.isDarkThemeEnabled
                 ? AppColors.white
-                :
-            AppColors.black,
+                : AppColors.black,
           ),
           dayNumStyle: TextStyle(
-            color:
-            themeProvider.isDarkThemeEnabled
+            color: themeProvider.isDarkThemeEnabled
                 ? AppColors.white
-                :
-            AppColors.black,
+                : AppColors.black,
           ),
           decoration: const BoxDecoration(
             // color: Color(0xff3371FF),
@@ -170,7 +139,4 @@ class ListTabState extends State<ListTab> {
       ),
     );
   }
-
-
-
 }
