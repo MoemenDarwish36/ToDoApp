@@ -9,6 +9,7 @@ import 'package:todo/provider/theme_provider.dart';
 import 'package:todo/ui/screen/auth/login_screen.dart';
 import 'package:todo/ui/screen/auth/register_screen.dart';
 import 'package:todo/ui/screen/home_screen/home_screen.dart';
+import 'package:todo/ui/screen/home_screen/tab/list_tab/edit_task_screen.dart';
 import 'package:todo/ui/screen/splash_screen/splash_screen.dart';
 import 'package:todo/ui/utilities/app_theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -60,12 +61,13 @@ class MyApp extends StatelessWidget {
       ],
       locale: Locale(languageProvider.selectedLanguage),
       debugShowCheckedModeBanner: false,
-      initialRoute: LoginScreen.routeName,
+      initialRoute: Splash.routeName,
       routes: {
         HomeScreen.routeName: (_) => HomeScreen(),
         Splash.routeName: (_) => const Splash(),
         RegisterScreen.routeName: (_) =>  RegisterScreen(),
         LoginScreen.routeName: (_) =>  LoginScreen(),
+        EditTaskScreen.routeName: (_) =>  EditTaskScreen(),
       },
       theme: AppThemeData.lightTheme,
       darkTheme: AppThemeData.darkTheme,

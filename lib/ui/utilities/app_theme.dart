@@ -40,6 +40,12 @@ class AppThemeData {
         // side: BorderSide()
       )),
       textTheme: const TextTheme(
+        displayLarge: TextStyle(
+          fontFamily: "Poppins",
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          color: AppColors.greenColor,
+        ),
         titleLarge: TextStyle(
           fontFamily: "Poppins",
           fontSize: 22,
@@ -129,6 +135,12 @@ class AppThemeData {
         // side: BorderSide()
       )),
       textTheme: const TextTheme(
+         displayLarge: TextStyle(
+        fontFamily: "Poppins",
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+        color: AppColors.greenColor,
+      ),
         titleLarge: TextStyle(
           fontFamily: "Poppins",
           fontSize: 22,

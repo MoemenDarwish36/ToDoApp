@@ -77,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             items: [
               BottomNavigationBarItem(
-                  icon: Icon(Icons.list), label: context.localization.list),
+                  icon: const Icon(Icons.list), label: context.localization.list),
               BottomNavigationBarItem(
                   icon: const Icon(Icons.settings),
                   label: context.localization.settings),

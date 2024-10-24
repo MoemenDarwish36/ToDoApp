@@ -8,13 +8,12 @@ class FirebaseUtils {
         .doc(uId)
         .collection(TaskDm.collectionName)
         .withConverter(
-        fromFirestore: (snapShot, options) =>
-            TaskDm.fromJson(snapShot.data()!),
-        toFirestore: (task, option) => task.toJson());
+            fromFirestore: (snapShot, options) =>
+                TaskDm.fromJson(snapShot.data()!),
+            toFirestore: (task, option) => task.toJson());
   }
 
-
-  static Future<void> addTaskToFireStore(TaskDm task , String uId) {
+  static Future<void> addTaskToFireStore(TaskDm task, String uId) {
     CollectionReference taskCollection = getTaskCollection(uId);
 
     /// collection
@@ -26,9 +25,10 @@ class FirebaseUtils {
     /// auto ID
     return taskDocRef.set(task);
   }
-  //, String uId
 
-  static Future<void> deleteTaskFromFireStore(TaskDm task , String uId) {
+
+
+  static Future<void> deleteTaskFromFireStore(TaskDm task, String uId) {
     return getTaskCollection(uId).doc(task.id).delete();
   }
 
@@ -36,9 +36,9 @@ class FirebaseUtils {
     return FirebaseFirestore.instance
         .collection(UserDm.collectionName)
         .withConverter(
-        fromFirestore: (snapShot, options) =>
-            UserDm.fromJson(snapShot.data()!),
-        toFirestore: (user, option) => user.toJson());
+            fromFirestore: (snapShot, options) =>
+                UserDm.fromJson(snapShot.data()!),
+            toFirestore: (user, option) => user.toJson());
   }
 
   static Future<void> addUserToFireStore(UserDm user) {
@@ -48,5 +48,12 @@ class FirebaseUtils {
   static Future<UserDm?> readUserFromFireStore(String uId) async {
     var querySnapshot = await getUserCollection().doc(uId).get();
     return querySnapshot.data();
+  }
+
+  static Future<void> editIsDone({required String uId, required TaskDm task}) {
+    return getTaskCollection(uId).doc(task.id).update({"isDone": task.isDone});
+  }
+  static Future<void> editTask({required String uId, required TaskDm task}) {
+    return getTaskCollection(uId).doc(task.id).update(task.toJson());
   }
 }
