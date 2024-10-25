@@ -53,6 +53,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
     authUserProvider = Provider.of(context);
     var screenSize = MediaQuery.of(context).size;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         title: Text("To Do List Hi ",
@@ -147,7 +148,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                               style: Theme.of(context).textTheme.bodyMedium),
                         ),
                         SizedBox(
-                          height: screenSize.height * .15,
+                          height: screenSize.height * .1,
                         ),
                         ElevatedButton(
                             style: ButtonStyle(
@@ -185,6 +186,8 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
           .then((onValue) {
         listProvider
             .getAllTasksFromFireStore(authUserProvider.currentUser!.id!);
+        print('Updating task with title: ${taskModal.title}');
+
         Navigator.pop(context);
       })
 
