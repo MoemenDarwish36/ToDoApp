@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_app/utilities/data_time_extension.dart';
 
+import '../../../provider/theme_provider.dart';
 import '../../../utilities/app_color.dart';
 
 class AddBottomSheet extends StatefulWidget {
@@ -21,22 +24,20 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
   String description = '';
 
   // late ListProvider listProvider;
-  // late ThemeProvider themeProvider;
-  //
+  late ThemeProvider themeProvider;
+
   // late AuthUserProvider authUserProvider;
 
   @override
   Widget build(BuildContext context) {
     // listProvider = Provider.of(context);
-    // themeProvider = Provider.of(context);
+    themeProvider = Provider.of(context);
     // authUserProvider = Provider.of(context);
     return Container(
       decoration: BoxDecoration(
-        color:
-            // themeProvider.isDarkThemeEnabled
-            //     ? AppColors.blackDarkColor
-            //     :
-            AppColors.white,
+        color: themeProvider.isDarkThemeEnabled
+            ? AppColors.blackDarkColor
+            : AppColors.white,
       ),
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -63,11 +64,9 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
                     decoration: InputDecoration(
                         hintText: "Enter task Title",
                         hintStyle: TextStyle(
-                          color:
-                              // themeProvider.isDarkThemeEnabled
-                              //     ? AppColors.white
-                              //     :
-                              AppColors.black,
+                          color: themeProvider.isDarkThemeEnabled
+                              ? AppColors.white
+                              : AppColors.black,
                         )),
                   ),
                   const SizedBox(
@@ -86,11 +85,9 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
                     decoration: InputDecoration(
                         hintText: "Enter task Description",
                         hintStyle: TextStyle(
-                          color:
-                              // themeProvider.isDarkThemeEnabled
-                              //     ? AppColors.white
-                              //     :
-                              AppColors.black,
+                          color: themeProvider.isDarkThemeEnabled
+                              ? AppColors.white
+                              : AppColors.black,
                         )),
                     maxLines: 4,
                   ),
@@ -106,11 +103,9 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
                   ),
                   TextButton(
                     onPressed: () {
-                      // showMyDatePicker();
+                      showMyDatePicker();
                     },
-                    child: Text("selectedDate",
-                        //     .
-                        // toFormattedDate,
+                    child: Text(selectedDate.toFormattedDate,
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.bodyMedium),
                   ),
@@ -153,16 +148,16 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
       //   });
       // }
     }
+  }
 
-    void showMyDatePicker() async {
-      ///this function (showDatePicker) need 4 parameter to displays DatePicker
-      selectedDate = await showDatePicker(
-              context: context,
-              initialDate: selectedDate,
-              firstDate: DateTime.now(),
-              lastDate: DateTime.now().add(const Duration(days: 365))) ??
-          selectedDate;
-      setState(() {});
-    }
+  void showMyDatePicker() async {
+    ///this function (showDatePicker) need 4 parameter to displays DatePicker
+    selectedDate = await showDatePicker(
+            context: context,
+            initialDate: selectedDate,
+            firstDate: DateTime.now(),
+            lastDate: DateTime.now().add(const Duration(days: 365))) ??
+        selectedDate;
+    setState(() {});
   }
 }

@@ -43,8 +43,14 @@ class AppThemeData {
       textTheme: TextTheme(
           titleLarge: GoogleFonts.poppins(
               fontSize: 22,
-              fontWeight: FontWeight.bold,
-              color: AppColors.white)));
+              fontWeight: FontWeight.bold, color: AppColors.white),
+        titleMedium: GoogleFonts.poppins(
+            fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.black),
+        bodyLarge: GoogleFonts.inter(
+            fontSize: 20, fontWeight: FontWeight.w500, color: AppColors.black),
+        bodyMedium: GoogleFonts.inter(
+            fontSize: 18, fontWeight: FontWeight.w400, color: AppColors.black),
+      ));
 
   static final ThemeData darkTheme = ThemeData(
       primaryColor: AppColors.primaryColor,
