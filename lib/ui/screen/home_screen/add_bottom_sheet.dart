@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/utilities/data_time_extension.dart';
 
+import '../../../model/task_data_model.dart';
+import '../../../provider/list_provider.dart';
 import '../../../provider/theme_provider.dart';
 import '../../../utilities/app_color.dart';
+import '../../../utilities/firebase_utils.dart';
 
 class AddBottomSheet extends StatefulWidget {
   const AddBottomSheet({super.key});
@@ -23,14 +26,14 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
   String title = '';
   String description = '';
 
-  // late ListProvider listProvider;
+  late ListProvider listProvider;
   late ThemeProvider themeProvider;
 
   // late AuthUserProvider authUserProvider;
 
   @override
   Widget build(BuildContext context) {
-    // listProvider = Provider.of(context);
+    listProvider = Provider.of(context);
     themeProvider = Provider.of(context);
     // authUserProvider = Provider.of(context);
     return Container(
@@ -129,24 +132,22 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
 
   void addToDoToFireStore() {
     if (formKey.currentState?.validate() == true) {
-      //   ///Add Task
-      //   TaskDm task = TaskDm(
-      //       title: title, dateTime: selectedDate, description: description);
-      //
-      //   FirebaseUtils.addTaskToFireStore(task, authUserProvider.currentUser!.id!)
-      //       .then((onValue) {
-      //     listProvider
-      //         .getAllTasksFromFireStore(authUserProvider.currentUser!.id!);
-      //     Navigator.pop(context);
-      //   })
-      //
-      //   /// called in used firebase offline
-      //       .timeout(const Duration(microseconds: 500), onTimeout: () {
-      //     listProvider
-      //         .getAllTasksFromFireStore(authUserProvider.currentUser!.id!);
-      //     Navigator.pop(context);
-      //   });
-      // }
+      ///Add Task
+      TaskModel task = TaskModel(
+          title: title, dateTime: selectedDate, description: description);
+
+      FirebaseUtils.addTaskToFireStore(task).then((onValue) {
+        listProvider.getAllTasksFromFireStore();
+        Navigator.pop(context);
+      })
+          //authUserProvider.currentUser!.id!
+
+          /// called in used firebase offline
+          .timeout(const Duration(microseconds: 500), onTimeout: () {
+        print("Task added successful");
+        listProvider.getAllTasksFromFireStore();
+        Navigator.pop(context);
+      });
     }
   }
 
