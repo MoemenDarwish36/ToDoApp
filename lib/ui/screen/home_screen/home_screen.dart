@@ -63,24 +63,19 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  buildBottomNavigation() => BottomAppBar(
-        shape: const CircularNotchedRectangle(),
-        notchMargin: 12,
-        child: BottomNavigationBar(
-            currentIndex: selectedIndex,
-            onTap: (tappedIndex) {
-              selectedIndex = tappedIndex;
-              setState(() {});
-            },
-            items: [
-              BottomNavigationBarItem(
-                  icon: const Icon(Icons.list),
-                  label: context.localization.list),
-              BottomNavigationBarItem(
-                  icon: const Icon(Icons.settings),
-                  label: context.localization.settings),
-            ]),
-      );
+  buildBottomNavigation() => BottomNavigationBar(
+          currentIndex: selectedIndex,
+          onTap: (tappedIndex) {
+            selectedIndex = tappedIndex;
+            setState(() {});
+          },
+          items: [
+            BottomNavigationBarItem(
+                icon: const Icon(Icons.list), label: context.localization.list),
+            BottomNavigationBarItem(
+                icon: const Icon(Icons.settings),
+                label: context.localization.settings),
+          ]);
 
   buildFab() => FloatingActionButton(
         onPressed: () {
