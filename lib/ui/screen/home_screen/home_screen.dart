@@ -3,6 +3,7 @@ import 'package:todo_app/ui/screen/home_screen/tabs/list_tab/list_tab.dart';
 import 'package:todo_app/ui/screen/home_screen/tabs/settings_tab/settings_tab.dart';
 
 import '../../../utilities/app_color.dart';
+import 'add_bottom_sheet.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = "homeScreen";
@@ -82,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   buildFab() => FloatingActionButton(
         onPressed: () {
-          // AddBottomSheet.show(context);
+          AddBottomSheet.show(context);
         },
         child: const Icon(
           Icons.add,
