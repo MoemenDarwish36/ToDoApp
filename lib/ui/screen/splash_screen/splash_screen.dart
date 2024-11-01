@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/ui/screen/home_screen/home_screen.dart';
+import 'package:todo_app/ui/screen/auth/login_screen.dart';
 
 import '../../../provider/theme_provider.dart';
 import '../../../utilities/app_assets.dart';
@@ -21,7 +21,7 @@ class _SplashState extends State<Splash> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 2), () {
-      Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
     });
   }
 

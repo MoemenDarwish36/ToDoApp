@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/ui/screen/home_screen/tabs/list_tab/task_list_item.dart';
 
+import '../../../../../provider/auth_user_provider.dart';
 import '../../../../../provider/list_provider.dart';
 import '../../../../../provider/theme_provider.dart';
 import '../../../../../utilities/app_color.dart';
@@ -17,18 +18,16 @@ class ListTab extends StatefulWidget {
 class ListTabState extends State<ListTab> {
   late ListProvider listProvider;
   late ThemeProvider themeProvider;
-
-  // late AuthUserProvider authUserProvider;
+  late AuthUserProvider authUserProvider;
 
   @override
   Widget build(BuildContext context) {
     themeProvider = Provider.of(context);
     listProvider = Provider.of(context);
-    // authUserProvider = Provider.of(context);
+    authUserProvider = Provider.of(context);
     if (listProvider.tasksList.isEmpty) {
-      listProvider.getAllTasksFromFireStore();
+      listProvider.getAllTasksFromFireStore(authUserProvider.currentUser!.id!);
     }
-    // authUserProvider.currentUser!.id!
 
     return Column(
       children: [
@@ -54,8 +53,8 @@ class ListTabState extends State<ListTab> {
       initialDate: listProvider.selectedDate,
       onDateChange: (selectedDate) {
         // `selectedDate` the new date selected.
-        listProvider.changeSelectData(selectedDate);
-        //, authUserProvider.currentUser!.id!
+        listProvider.changeSelectData(
+            selectedDate, authUserProvider.currentUser!.id!);
       },
       headerProps: EasyHeaderProps(
         monthStyle: TextStyle(

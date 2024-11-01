@@ -3,6 +3,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/model/task_data_model.dart';
 
+import '../../../../../provider/auth_user_provider.dart';
 import '../../../../../provider/list_provider.dart';
 import '../../../../../provider/theme_provider.dart';
 import '../../../../../utilities/app_color.dart';
@@ -15,10 +16,10 @@ class TaskListItem extends StatefulWidget {
   TaskListItem({super.key, required this.task});
 
   @override
-  State<TaskListItem> createState() => _ListItemState();
+  State<TaskListItem> createState() => _TaskListItemState();
 }
 
-class _ListItemState extends State<TaskListItem> {
+class _TaskListItemState extends State<TaskListItem> {
   late ThemeProvider themeProvider;
 
   late ListProvider listProvider;
@@ -27,7 +28,7 @@ class _ListItemState extends State<TaskListItem> {
   Widget build(BuildContext context) {
     ListProvider listProvider = Provider.of(context);
     ThemeProvider themeProvider = Provider.of(context);
-    // AuthUserProvider authUserProvider = Provider.of(context);
+    AuthUserProvider authUserProvider = Provider.of(context);
     return Container(
       margin: const EdgeInsets.all(12),
       child: Slidable(
@@ -46,12 +47,14 @@ class _ListItemState extends State<TaskListItem> {
               ),
               onPressed: (context) {
                 /// delete task
-                /// //authUserProvider.currentUser!.id!
-                FirebaseUtils.deleteTaskFromFireStore(widget.task)
+                FirebaseUtils.deleteTaskFromFireStore(
+                        widget.task, authUserProvider.currentUser!.id!)
                     .then((value) {
-                  listProvider.getAllTasksFromFireStore();
+                  listProvider.getAllTasksFromFireStore(
+                      authUserProvider.currentUser!.id!);
                 }).timeout(const Duration(milliseconds: 500), onTimeout: () {
-                  listProvider.getAllTasksFromFireStore();
+                  listProvider.getAllTasksFromFireStore(
+                      authUserProvider.currentUser!.id!);
                 });
               },
               backgroundColor: AppColors.redColor,
@@ -87,9 +90,9 @@ class _ListItemState extends State<TaskListItem> {
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
           decoration: BoxDecoration(
-              color: themeProvider.isDarkThemeEnabled
-                  ? AppColors.blackDarkColor
-                  : AppColors.white,
+            color: themeProvider.isDarkThemeEnabled
+                ? AppColors.blackDarkColor
+                : AppColors.white,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -122,41 +125,49 @@ class _ListItemState extends State<TaskListItem> {
               GestureDetector(
                 onTap: () {
                   widget.task.isDone = !widget.task.isDone;
-                  FirebaseUtils.editIsDone(task: widget.task);
-                  //uId: authUserProvider.currentUser!.id!,
+                  FirebaseUtils.editIsDone(
+                      uId: authUserProvider.currentUser!.id!,
+                      task: widget.task);
 
                   setState(() {});
-                },
-                child: widget.task.isDone == true
-                    ? Text(
-                        "Done !",
-                        style: Theme.of(context)
-                            .textTheme
-                            .displayLarge
-                            ?.copyWith(
-                                color: widget.task.isDone == true
-                                    ? AppColors.greenColor
-                                    : AppColors.primaryColor),
-                      )
-                    : Container(
-                        padding: EdgeInsets.symmetric(
-                          vertical: MediaQuery.of(context).size.height * .01,
-                          horizontal: MediaQuery.of(context).size.width * .055,
-                        ),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: AppColors.primaryColor),
-                        child: const Icon(
-                          Icons.check,
-                          color: AppColors.white,
-                          size: 35,
-                        ),
-                      ),
-              )
-            ],
+                  },
+                  child: widget.task.isDone == true
+                      ? Text(
+                    "Done !",
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .displayLarge
+                        ?.copyWith(
+                        color: widget.task.isDone == true
+                            ? AppColors.greenColor
+                            : AppColors.primaryColor),
+                  )
+                      : Container(
+                    padding: EdgeInsets.symmetric(
+                      vertical: MediaQuery
+                          .of(context)
+                          .size
+                          .height * .01,
+                      horizontal: MediaQuery
+                          .of(context)
+                          .size
+                          .width * .055,
+                    ),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: AppColors.primaryColor),
+                    child: const Icon(
+                      Icons.check,
+                      color: AppColors.white,
+                      size: 35,
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
   }
 }

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/utilities/data_time_extension.dart';
 
 import '../../../model/task_data_model.dart';
+import '../../../provider/auth_user_provider.dart';
 import '../../../provider/list_provider.dart';
 import '../../../provider/theme_provider.dart';
 import '../../../utilities/app_color.dart';
@@ -29,13 +30,13 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
   late ListProvider listProvider;
   late ThemeProvider themeProvider;
 
-  // late AuthUserProvider authUserProvider;
+  late AuthUserProvider authUserProvider;
 
   @override
   Widget build(BuildContext context) {
     listProvider = Provider.of(context);
     themeProvider = Provider.of(context);
-    // authUserProvider = Provider.of(context);
+    authUserProvider = Provider.of(context);
     return Container(
       decoration: BoxDecoration(
         color: themeProvider.isDarkThemeEnabled
@@ -136,16 +137,17 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
       TaskModel task = TaskModel(
           title: title, dateTime: selectedDate, description: description);
 
-      FirebaseUtils.addTaskToFireStore(task).then((onValue) {
-        listProvider.getAllTasksFromFireStore();
+      FirebaseUtils.addTaskToFireStore(task, authUserProvider.currentUser!.id!)
+          .then((onValue) {
+        listProvider
+            .getAllTasksFromFireStore(authUserProvider.currentUser!.id!);
         Navigator.pop(context);
       })
-          //authUserProvider.currentUser!.id!
 
           /// called in used firebase offline
           .timeout(const Duration(microseconds: 500), onTimeout: () {
-        print("Task added successful");
-        listProvider.getAllTasksFromFireStore();
+        listProvider
+            .getAllTasksFromFireStore(authUserProvider.currentUser!.id!);
         Navigator.pop(context);
       });
     }

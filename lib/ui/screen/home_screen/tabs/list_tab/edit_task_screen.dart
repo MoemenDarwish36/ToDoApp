@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/model/task_data_model.dart';
 import 'package:todo_app/utilities/data_time_extension.dart';
 
+import '../../../../../provider/auth_user_provider.dart';
 import '../../../../../provider/list_provider.dart';
 import '../../../../../provider/theme_provider.dart';
 import '../../../../../utilities/app_color.dart';
@@ -25,10 +26,8 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
 
   late ThemeProvider themeProvider;
   late ListProvider listProvider;
-
-  // late AuthUserProvider authUserProvider;
+  late AuthUserProvider authUserProvider;
   late TaskModel taskModal;
-
   @override
   void initState() {
     // TODO: implement initState
@@ -46,7 +45,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
   Widget build(BuildContext context) {
     listProvider = Provider.of(context);
     themeProvider = Provider.of(context);
-    // authUserProvider = Provider.of(context);
+    authUserProvider = Provider.of(context);
     var screenSize = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -174,9 +173,12 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
       taskModal.title = titleController.text;
       taskModal.description = descriptionController.text;
       taskModal.dateTime = selectedDate;
-//uId: authUserProvider.currentUser!.id!,
-      FirebaseUtils.editTask(task: taskModal).then((onValue) {
-        listProvider.getAllTasksFromFireStore();
+
+      FirebaseUtils.editTask(
+              uId: authUserProvider.currentUser!.id!, task: taskModal)
+          .then((onValue) {
+        listProvider
+            .getAllTasksFromFireStore(authUserProvider.currentUser!.id!);
         print('Updating task with title: ${taskModal.title}');
 
         Navigator.pop(context);
@@ -184,7 +186,8 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
 
           /// called in used firebase offline
           .timeout(const Duration(microseconds: 500), onTimeout: () {
-        listProvider.getAllTasksFromFireStore();
+        listProvider
+            .getAllTasksFromFireStore(authUserProvider.currentUser!.id!);
         Navigator.pop(context);
       });
     }
