@@ -26,10 +26,8 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
   DateTime selectedDate = DateTime.now();
   String title = '';
   String description = '';
-
   late ListProvider listProvider;
   late ThemeProvider themeProvider;
-
   late AuthUserProvider authUserProvider;
 
   @override
@@ -133,7 +131,6 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
 
   void addToDoToFireStore() {
     if (formKey.currentState?.validate() == true) {
-      ///Add Task
       TaskModel task = TaskModel(
           title: title, dateTime: selectedDate, description: description);
 
@@ -144,7 +141,6 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
         Navigator.pop(context);
       })
 
-          /// called in used firebase offline
           .timeout(const Duration(microseconds: 500), onTimeout: () {
         listProvider
             .getAllTasksFromFireStore(authUserProvider.currentUser!.id!);
@@ -154,7 +150,6 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
   }
 
   void showMyDatePicker() async {
-    ///this function (showDatePicker) need 4 parameter to displays DatePicker
     selectedDate = await showDatePicker(
             context: context,
             initialDate: selectedDate,

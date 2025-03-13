@@ -32,14 +32,10 @@ class _TaskListItemState extends State<TaskListItem> {
     return Container(
       margin: const EdgeInsets.all(12),
       child: Slidable(
-        // The start action pane is the one at the left or the top side.
         startActionPane: ActionPane(
           extentRatio: .4,
-          // A motion is a widget used to control how the pane animates.
           motion: const BehindMotion(),
-          // All actions are defined in the children parameter.
           children: [
-            // A SlidableAction can have an icon and/or a label.
             SlidableAction(
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(24),

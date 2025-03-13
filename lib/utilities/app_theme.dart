@@ -23,13 +23,8 @@ class AppThemeData {
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
         iconSize: 35,
         backgroundColor: AppColors.primaryColor,
-
-        ///to do border around FloatingActionButton
         shape:
             StadiumBorder(side: BorderSide(color: AppColors.white, width: 4)),
-        // RoundedRectangleBorder(
-        //     borderRadius: BorderRadius.circular(35),
-        //     side: const BorderSide(color: AppColors.white,width: 4)),
       ),
       bottomSheetTheme: const BottomSheetThemeData(
           shape: RoundedRectangleBorder(

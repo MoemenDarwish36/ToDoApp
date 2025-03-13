@@ -28,6 +28,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
   late ListProvider listProvider;
   late AuthUserProvider authUserProvider;
   late TaskModel taskModal;
+
   @override
   void initState() {
     // TODO: implement initState

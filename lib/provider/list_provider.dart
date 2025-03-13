@@ -13,12 +13,10 @@ class ListProvider extends ChangeNotifier {
     QuerySnapshot<TaskModel> querySnapshot =
         await FirebaseUtils.getTaskCollection(uId).get();
 
-    ///List<QueryDocumentSnapshot<TaskDm>>  =>  List<TaskDm>
     tasksList = querySnapshot.docs.map((doc) {
       return doc.data();
     }).toList();
 
-    ///filter data
     tasksList = tasksList.where((task) {
       if (selectedDate.day == task.dateTime.day &&
           selectedDate.month == task.dateTime.month &&
@@ -30,7 +28,6 @@ class ListProvider extends ChangeNotifier {
       }
     }).toList();
 
-    ///sorting data
     tasksList.sort((TaskModel task1, TaskModel task2) {
       return task1.dateTime.compareTo(task2.dateTime);
     });

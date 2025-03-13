@@ -16,13 +16,10 @@ class FirebaseUtils {
   static Future<void> addTaskToFireStore(TaskModel task, String uId) {
     CollectionReference taskCollection = getTaskCollection(uId);
 
-    /// collection
     DocumentReference taskDocRef = taskCollection.doc();
 
-    ///document
     task.id = taskDocRef.id;
 
-    /// auto ID
     return taskDocRef.set(task);
   }
 

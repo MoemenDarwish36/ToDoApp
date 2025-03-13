@@ -1,21 +1,21 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/model/user_data_model.dart';
 
-import '../../../provider/auth_user_provider.dart';
-import '../../../provider/theme_provider.dart';
-import '../../../utilities/app_assets.dart';
-import '../../../utilities/app_color.dart';
-import '../../../utilities/dialog_utils.dart';
-import '../../../utilities/firebase_utils.dart';
-import '../../../utilities/text_form_field_item.dart';
-import '../home_screen/home_screen.dart';
+import '../../../../model/user_data_model.dart';
+import '../../../../provider/auth_user_provider.dart';
+import '../../../../provider/theme_provider.dart';
+import '../../../../utilities/app_assets.dart';
+import '../../../../utilities/app_color.dart';
+import '../../../../utilities/dialog_utils.dart';
+import '../../../../utilities/firebase_utils.dart';
+import '../../../../utilities/text_form_field_item.dart';
+import '../../home_screen/home_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const String routeName = "registerScreen";
 
-  RegisterScreen({super.key});
+  const RegisterScreen({super.key});
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -39,7 +39,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     nameController.dispose();
     emailController.dispose();
@@ -144,7 +143,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: ElevatedButton(
                           style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all(
+                              backgroundColor: WidgetStateProperty.all(
                                   Theme.of(context).primaryColor)),
                           onPressed: () {
                             register();
@@ -164,8 +163,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   void register() async {
     if (formKey.currentState?.validate() == true) {
-      ///register
-      ///todo : showLoading
       DialogUtils.showLoading(context: context, message: 'Loading...');
       try {
         final credential =
@@ -180,10 +177,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         authUserProvider.updateUser(user);
         await FirebaseUtils.addUserToFireStore(user);
 
-        ///todo : hideLoading
         DialogUtils.hideLoading(context);
 
-        ///todo : showMessage
         DialogUtils.showMessage(
             context: context,
             message: 'Register Successfully',
@@ -194,30 +189,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
             });
       } on FirebaseAuthException catch (e) {
         if (e.code == 'weak-password') {
-          ///todo : hideLoading
           DialogUtils.hideLoading(context);
 
-          ///todo : showMessage
           DialogUtils.showMessage(
               context: context,
               message: 'The password provided is too weak.',
               title: 'Error',
               posActionName: "Ok");
         } else if (e.code == 'email-already-in-use') {
-          ///todo : hideLoading
           DialogUtils.hideLoading(context);
 
-          ///todo : showMessage
           DialogUtils.showMessage(
               context: context,
               posActionName: "Ok",
               message: 'The account already exists for that email.',
               title: 'Error');
         } else if (e.code == 'network-request-failed') {
-          ///todo : hideLoading
           DialogUtils.hideLoading(context);
 
-          ///todo : showMessage
           DialogUtils.showMessage(
               context: context,
               posActionName: "Ok",
@@ -226,12 +215,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
               title: 'Error');
         }
       } catch (e) {
-        ///todo : hideLoading
         DialogUtils.hideLoading(context);
         if (context.mounted) {
-          ///todo : showMessage
           DialogUtils.showMessage(
               context: context, message: e.toString(), title: 'Error');
+          print(e.toString());
         }
       }
     }

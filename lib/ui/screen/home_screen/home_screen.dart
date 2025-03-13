@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/ui/screen/home_screen/tabs/list_tab/list_tab.dart';
+import 'package:todo_app/ui/screen/home_screen/tabs/list_tab/task_list_tab.dart';
 import 'package:todo_app/ui/screen/home_screen/tabs/settings_tab/settings_tab.dart';
 import 'package:todo_app/utilities/local_extension.dart';
 
 import '../../../provider/auth_user_provider.dart';
 import '../../../provider/list_provider.dart';
 import '../../../utilities/app_color.dart';
-import '../auth/login_screen.dart';
+import '../auth/login_screen/login_screen.dart';
 import 'add_bottom_sheet.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = "homeScreen";
 
-  HomeScreen({super.key});
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -21,7 +21,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int selectedIndex = 0;
-  List<Widget> tab = [ListTab(), SettingsTab()];
+  List<Widget> tab = [TaskListTab(), SettingsTab()];
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +30,10 @@ class _HomeScreenState extends State<HomeScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          // toolbarHeight: MediaQuery.of(context).size.height * .18,
           backgroundColor: Theme.of(context).primaryColor,
           title: Text(
               "To Do List Hi ${authUserProvider.currentUser!.userName!}",
               style: Theme.of(context).textTheme.titleLarge),
-
           actions: [
             IconButton(
                 onPressed: () {
@@ -48,7 +46,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
 
-        ///to controls a FloatingActionButton location
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: buildBottomNavigation(),
         floatingActionButton: buildFab(),

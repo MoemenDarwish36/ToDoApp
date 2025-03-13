@@ -26,7 +26,6 @@ class TaskModel {
     title = json["title"];
     description = json["description"];
 
-    ///to convert time to  timestamp
     Timestamp timestamp = json["dateTime"];
     dateTime = timestamp.toDate();
 

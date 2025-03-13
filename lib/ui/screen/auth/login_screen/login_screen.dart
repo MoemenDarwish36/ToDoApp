@@ -1,21 +1,21 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/ui/screen/auth/register_screen.dart';
 
-import '../../../provider/auth_user_provider.dart';
-import '../../../provider/theme_provider.dart';
-import '../../../utilities/app_assets.dart';
-import '../../../utilities/app_color.dart';
-import '../../../utilities/dialog_utils.dart';
-import '../../../utilities/firebase_utils.dart';
-import '../../../utilities/text_form_field_item.dart';
-import '../home_screen/home_screen.dart';
+import '../../../../provider/auth_user_provider.dart';
+import '../../../../provider/theme_provider.dart';
+import '../../../../utilities/app_assets.dart';
+import '../../../../utilities/app_color.dart';
+import '../../../../utilities/dialog_utils.dart';
+import '../../../../utilities/firebase_utils.dart';
+import '../../../../utilities/text_form_field_item.dart';
+import '../../home_screen/home_screen.dart';
+import '../register_screen/register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = "loginScreen";
 
-  LoginScreen({super.key});
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -32,7 +32,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     emailController.dispose();
     passwordController.dispose();
@@ -119,7 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: ElevatedButton(
                           style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all(
+                              backgroundColor: WidgetStateProperty.all(
                                   Theme.of(context).primaryColor)),
                           onPressed: () {
                             login();
@@ -148,8 +147,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void login() async {
     if (formKey.currentState?.validate() == true) {
-      ///login
-      ///todo : showLoading
       DialogUtils.showLoading(context: context, message: 'Loading...');
       try {
         final credential = await FirebaseAuth.instance
@@ -162,10 +159,8 @@ class _LoginScreenState extends State<LoginScreen> {
         }
         authUserProvider.updateUser(user);
 
-        ///todo : hideLoading
         DialogUtils.hideLoading(context);
 
-        ///todo : showMessage
         DialogUtils.showMessage(
             context: context,
             message: 'Login Successfully',
@@ -176,10 +171,8 @@ class _LoginScreenState extends State<LoginScreen> {
             });
       } on FirebaseAuthException catch (e) {
         if (e.code == 'invalid-credential') {
-          ///todo : hideLoading
           DialogUtils.hideLoading(context);
 
-          ///todo : showMessage
           DialogUtils.showMessage(
               context: context,
               message:
@@ -187,10 +180,8 @@ class _LoginScreenState extends State<LoginScreen> {
               title: 'Error',
               posActionName: "Ok");
         } else if (e.code == 'network-request-failed') {
-          ///todo : hideLoading
           DialogUtils.hideLoading(context);
 
-          ///todo : showMessage
           DialogUtils.showMessage(
               context: context,
               posActionName: "Ok",
@@ -199,10 +190,8 @@ class _LoginScreenState extends State<LoginScreen> {
               title: 'Error');
         }
       } catch (e) {
-        ///todo : hideLoading
         DialogUtils.hideLoading(context);
 
-        ///todo : showMessage
         DialogUtils.showMessage(
             context: context,
             message: e.toString(),

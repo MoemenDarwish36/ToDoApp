@@ -7,8 +7,8 @@ import 'package:todo_app/provider/auth_user_provider.dart';
 import 'package:todo_app/provider/language_provider.dart';
 import 'package:todo_app/provider/list_provider.dart';
 import 'package:todo_app/provider/theme_provider.dart';
-import 'package:todo_app/ui/screen/auth/login_screen.dart';
-import 'package:todo_app/ui/screen/auth/register_screen.dart';
+import 'package:todo_app/ui/screen/auth/login_screen/login_screen.dart';
+import 'package:todo_app/ui/screen/auth/register_screen/register_screen.dart';
 import 'package:todo_app/ui/screen/home_screen/home_screen.dart';
 import 'package:todo_app/ui/screen/home_screen/tabs/list_tab/edit_task_screen.dart';
 import 'package:todo_app/ui/screen/splash_screen/splash_screen.dart';
@@ -63,7 +63,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: Splash.routeName,
       routes: {
-        HomeScreen.routeName: (_) => HomeScreen(),
+        HomeScreen.routeName: (_) => const HomeScreen(),
         Splash.routeName: (_) => const Splash(),
         RegisterScreen.routeName: (_) => RegisterScreen(),
         LoginScreen.routeName: (_) => LoginScreen(),
